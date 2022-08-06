@@ -1,0 +1,71 @@
+-- AWS has its services spread across multiple regions around the globe.
+-- This is to ensure High Availability!
+-- A Region is a geographical area that contains AWS resources.
+-- There are 4 factors to determine the right region for your services, data and apps:
+1. Compliance with data governance and legal requirments: (ex: Data from one region should not travel another, etc)
+2. Proximity to your customers (How close are your customers from any particular AWS region -- This will help to deliver content faster)
+3. Available services in your region. (Is the service that you need available in the region that you choose? -- Sometimes, the closest Region might not have all the features that you want to offer)
+4. Pricing (Pricing changes region-to-region, Brazil taxes are high, so pricing will be higher too - choose wisely! ex: The way Brazil’s tax structure is set up, it might cost 50% more to run the same workload out of the São Paulo Region compared to the Oregon Region)
+
+-- Within regions, we have one or a group of datacenters called as an "Availability zone". Each AZ is located 10s of miles away from other.
+-- If a disaster occurs in one part of the Region, they are distant enough to reduce the chance that multiple Availability Zones are affected.
+-- In order to achive high availablility, AWS recommends to have atleast two running instances of EC2 in two different availablility zones so that if one goes down, our application would still be running in the other Availability Zone.
+-- Region specific services that cannot be broken down into the Availability Zones, like the ELB, SQS, SNS, etc., come by default with High availablility measures. You don't need to worry about that at all!
+
+Amazon CloudFront:
+-- This is useful when there is a need to cache the content locally instead of having the users request for it to an availablility zone or region away from them.
+-- This reduces latency and helps to deliver content faster in case if the requests come from far away or do not belong to our region.
+-- To achieve this, AWS makes use of Edge Locations, these are locations different from regions using which we can push content from one region to all over the globe to accelerate communication and content delivery.
+-- Edge locations can do more than just running Amazon CloudFront.
+
+Amazon Route 53:
+-- This is a domain name service (DNS) that is run on the edge locations.
+-- This helps to direct customers to correct web locations with low latency.
+
+AWS Outposts:
+-- When your customers want to run AWS services inside their own datacenters, we can use AWS Outposts.
+-- This will basically install a fully operational mini-region inside the datacenter. This is owned and operated by AWS with all the functionality.
+-- However, this is not used that widely. But if a customer needs something like this where specific problems can be only solved by staying in an owned building, AWS Outposts can help!
+
+So far we understood about various services offered by AWS. But how do we work on them and make use of these actually?
+Well, we have multiple ways:
+1. AWS Management Console.
+2. AWS Command Line Interface (CLI)
+3. AWS Software Development Kits (SDKs)
+
+1. AWS Management Console:
+-- The AWS Management Console is a web-based interface for accessing and managing AWS services.
+-- You can quickly access recently used services and search for other services by name, keyword, or acronym. 
+-- The console includes wizards and automated workflows that can simplify the process of completing tasks.
+-- They also have a mobile app for monitoring resources, viewing alarms, and accessing billing information.
+-- Multiple identities can stay logged into the AWS Console mobile app at the same time.
+
+2. AWS CLI:
+-- To save time when making API requests, you can use the AWS Command Line Interface (AWS CLI).
+-- Enables you to control multiple AWS services directly from the command line within one tool. 
+-- Available on Windows, macOS, and Linux. 
+-- You can automate the actions that your services and applications perform through scripts.
+
+3. AWS SDKs:
+-- SDKs make it easier for you to use AWS services through an API designed for your programming language or platform. 
+-- SDKs enable you to use AWS services with your new or existing applications.
+-- Supported programming languages include C++, Java, .NET, and more.
+-- Sample documentation and examples are also provided to help you get started.
+
+Apart from the above, AWS also provides managed tools:
+1. AWS Elastic Beanstalk
+2. AWS CloudFormation
+
+
+1. AWS Elastic Beanstalk:
+-- You provide code and configuration settings, and Elastic Beanstalk deploys the resources necessary to perform the following tasks:
+a. Adjust capacity
+b. Load balancing
+c. Automatic scaling
+d. Application health monitoring
+-- This ensures that you avoid spending time on clicking UI buttons on the management console or on writing hefty codes.
+
+2. AWS CloudFormation:
+-- You can treat your infrastructure as code. This means that you can build an environment by writing lines of code instead of using the AWS Management Console to individually provision resources.
+-- It provisions resources in a safe and repeatable manner so that we can frequently build the similar infrastructure and apps quickly as needed.
+-- It determines the right operations to perform when managing your stack and rolls back changes automatically if it detects errors.

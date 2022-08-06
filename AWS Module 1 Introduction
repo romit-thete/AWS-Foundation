@@ -1,0 +1,45 @@
+Almost Everything in IT is client-server based.
+
+Server in case of AWS is called the Amazon Elastic Compute Cloud (Amazon EC2) -- a virtual server
+Pay for what you use!!
+
+In computing, a client can be a web browser or desktop application that a person interacts with to make requests to computer servers. 
+A server can be services such as Amazon Elastic Compute Cloud (Amazon EC2), a type of virtual server.
+
+Introduction:
+Cloud:
+On-demand delivery of IT resources over the Internet with pay-as-you-go pricing.
+
+Undifferentiated heavy lifting of IT:
+Tasks that are common, often repetitive (installing softwares, setting up servers, etc) which take up most of the time and resources and are not a differetiator from the competition. These are the ones that AWS manages to take care of!
+
+Deployment models for Cloud computing:
+1. Cloud-based deployment:
+-- Run all parts of the application on cloud.
+-- Migrate existing applications to cloud.
+-- Design and build new applications on the cloud.
+
+For example, a company might create an application consisting of virtual servers, databases, and networking components that are fully based in the cloud.
+
+2. On-premises Deployment:
+-- Deploy resources by using virtualization and resource management tools.
+-- Increase resource utilization by using application management and virtualization technologies.
+-- Also known as "private cloud" deployment.
+-- Good resource utilization.
+
+For example, you might have applications that run on technology that is fully kept in your on-premises data center.
+
+3. Hybrid deployment:
+-- Connect cloud-based resources to on-premises infrastructure.
+-- Integrate cloud-based resources with legacy IT applications.
+-- Advantages of both cloud and on-prem.
+
+For example, suppose that a company wants to use cloud services that can automate batch data processing and analytics. However, the company has several legacy applications that are more suitable on premises and will not be migrated to the cloud. With a hybrid deployment, the company would be able to keep the legacy applications on premises while benefiting from the data and analytics services that run in the cloud.
+
+Benefits of Cloud Computing:
+-- Trade upfront expense (DC, physical servers, etc) for variable expense (pay as you consume).
+-- Stop spending money to run and maintain data centers.
+-- Stop guessing capacity.
+-- Benefit from massive economies of scale -- As many and many people use AWS, pay as you go becomes cheaper.
+-- Increase speed and agility.
+-- Go global in minutes.

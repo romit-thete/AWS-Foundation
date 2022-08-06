@@ -1,0 +1,146 @@
+Amazon EC2:
+-- AWS has built and datacenters, secured them, purchased the servers and installed them and are also online and ready to use!
+-- One can use these whenever needed.
+-- All one has to do is request and start them up. Once done with the usage, we simply need to shut it down.
+-- We only pay for running instances!
+-- EC2 runs on top of physical host machines, using virtualization.
+-- When you spin up EC2 instance, you share it with multiple other instances. A hypervisor is responsible for sharing the underlying h/w. (Multi-tenancy)
+-- Hypervisor is managed by AWS and it is responsible for isolating the VMs from each other as they share resources from the host which make them secure!
+-- This is all setup by AWS but it is good to have a high level of view.
+-- You also have the flexibilty and control over the configs of the EC2 instances.
+-- Configs:
+OS: Windows/Linux
+Softwares: Internal business apps, webapps, DBs, third party softwares
+-- They are Resizable (Vertical scaling: We can make instances bigger/smaller as per need)
+-- Networking can also be controlled (public/private access)
+-- Compute as a Service (CaaS)
+
+Types of EC2 instance families:
+Each EC2 instance type is grouped under an instance family.
+1. General purpose -- Balanced resources. Diverse workloads like web servers, code repos.
+2. Compute optimized -- Compute intensive tasks. Gaming servers, HPC, Scientific modelling.
+3. Memory optimized -- Memory intensive tasks. Deliver fast performance for workloads that process large datasets in memory 
+4. Accelerated computing -- Floating point calculations, Graphics processing, Data pattern matching. Use hardware accelerators.
+5. Storage optimized -- High performace for locally stored data.
+
+Pricing:
+1. On demand:
+-- pay for instance running (depends on OS and type)
+-- testing/getting started, no contracts or upfront costs needed
+-- ideal for short-term, irregular workloads that cannot be interrupted.
+-- The instances run continuously until you stop them, and you pay for only the compute time you use.
+-- not recommended for workloads that last a year or longer because these workloads can experience greater cost savings using Reserved Instances.
+
+2. Savings plans:
+-- Low prices for a committment of some min usage (1 or 3 year term) (upto 72% saving on on-demand pricing)
+-- No restrictions on size/OS/etc.
+-- Any usage up to the commitment is charged at the discounted plan rate (for example, $10 an hour). Any usage beyond the commitment is charged at regular On-Demand rates.
+
+3. Reserved instances:
+-- steady state workloads.
+-- ones with predicatable usage.
+-- 75% discount over On-demand pricing 
+-- You can purchase Standard Reserved and Convertible Reserved Instances for a 1-year or 3-year term, and Scheduled Reserved Instances for a 1-year term. You realize greater cost savings with the 3-year option.
+-- 3 ways of payment:
+	All upfront -- pay entire amount
+	Partial upfront -- pay partially
+	No upfront -- nothing initially
+-- At the end of a Reserved Instance term, you can continue using the Amazon EC2 instance without interruption. However, you are charged On-Demand rates until you do one of the following:
+	-- Terminate the instance.
+	-- Purchase a new Reserved Instance that matches the instance attributes (instance type, Region, tenancy, and platform).
+
+4. Spot instances:
+-- Request spare EC2 for upto 90% on on-demand pricing.
+-- AWS can reclaim it at any time by giving 2 mins warning to save workloads.
+-- We can resume later but make sure workloads can tolerate being interrupted -- Batch workloads an example.
+
+5. Dedicated hosts
+-- Physical hosts dedicated.
+-- No sharing.
+-- Used mostly for certain compliance requirements.
+-- Of all the Amazon EC2 options that were covered, Dedicated Hosts are the most expensive.
+
+
+Scaling EC2 instances (Scalability and Elasticity):
+-- Scaling can be done vertically by resizing the instances or horizontally by spinning up new instances.
+-- AWS provides the flexibilty to scale up and out as and when demands increase/decrease.
+-- This avoids a huge problem with using on-prem as it provisions EC2 instances as and when needed according to the demand.
+-- The AWS service that provides this functionality to scale horizontally in/out automatically is Amazon EC2 Auto Scaling.
+-- Within Amazon EC2 Auto Scaling, you can use two approaches: dynamic scaling and predictive scaling. To scale faster, you can use dynamic scaling and predictive scaling together.
+		-- Dynamic scaling responds to "changing demand".
+		-- Predictive scaling automatically schedules the right number of Amazon EC2 instances based on "predicted demand".
+-- We have the flexibilty to balance load as well. So that if we have a disaster wherein one EC2 instance collapses, we can instantly shift load to the other EC2 instance of the same programmatic method.
+-- When the demand increases, we can use auto-scaling.
+-- When configuring the size of your Auto Scaling group, you might set the minimum number of Amazon EC2 instances at one. This means that at all times, there must be at least one Amazon EC2 instance running.
+-- The minimum capacity is the number of Amazon EC2 instances that launch immediately after you have created the Auto Scaling group.
+-- Next, you can set the desired capacity at two Amazon EC2 instances even though your application needs a minimum of a single Amazon EC2 instance to run. If nothing is mentioned, it is considered as the minimum capacity.
+-- The third configuration that you can set in an Auto Scaling group is the maximum capacity. You might configure the Auto Scaling group to scale out in response to increased demand (max: 4 only)
+
+
+Elastic Load Balancing (ELB):
+-- When there are multiple EC2 instances, the request is routed to an available EC2 instance using a load balancing service called "Elastic Load Balancing".
+-- It is a regional construct -- runs at region level -- hence it is highly available
+-- It is auto scalable with no change to cost
+-- When new EC2 instances spin up, they inform the ELB about their availability and ELB sends the requests to new EC2 instances as well.
+-- When the requests scale down, ELB stops new traffic and waits for existing requests to drain out. Once that's done, the auto-scaling engine terminates the instances with no load.
+-- It is not only used to external traffic. it can be used for frontend-backend instances as well. Because having tight coupling would cause chaos when a new backend EC2 instance is spun up, requiring it to register itself across all the frontend EC2 instances. Thus an ELB in placed in between which has all the connection details for the backend EC2 instances and the frontend instances have just one url to connect to as ELB is regional.
+-- This is called a true decoupled architecture.
+-- Although Elastic Load Balancing and Amazon EC2 Auto Scaling are separate services, they work together to help ensure that applications running in Amazon EC2 can provide high performance and availability. 
+
+
+Messaging and queuing:
+-- A scenario where applications communicate with each other directly is called Tightly coupled architecture (monolithic applications).
+-- If a single component fails/changes, the whole system goes down. 
+-- This is why we have loosely coupled architecture where a single component failure won't cause cascading failures (microservices).
+-- This is done by introducing a buffer between the components called "Message Queue".
+-- Message Queue holds the messages in case if a component goes down and waits for the availability of another component thus avoiding any failures.
+-- This is what we want to achieve using AWS.
+-- This is done using two services:
+1. Amazon Simple Queue Service (SQS)
+2. Amazon Simple Notification Service (SNS)
+
+1. Amazon Simple Queue Service (SQS):
+-- Allows to send, store and receive messages between software components at any volume without losing messages or requiring other services to be available.
+-- Data contained within a message is called Payload and are stored until messages are delivered.
+-- SQS queues are where messages are placed until processed.
+-- Scale automatically, reliable and easy to use.
+
+2. Amazon Simple Notification Service (SNS):
+-- Similar to SQS but it can also send out notifications to end users using publish/subscribe model.
+-- We create an SNS topic which is a channel for messages to be delivered.
+-- Then configure the subscribers to that topic and then publish messages for those subscribers.
+-- The SNS subscribers can also be endpoints, like SQS queues, AWS Lambda functions, etc.
+-- Users can get notifications in the form of emails, SMS, and mobile push notifications.
+
+Other services by AWS:
+1. Serverless:
+-- You cannot actually see or access the underlying infrastructre.
+-- Provisioning, Scaling, HA, and maintainance is taken care by AWS.
+
+AWS Lambda:
+-- Upload code to Lambda function, config a trigger and service waits for trigger, then the code is run in a managed env when trigger is active.
+-- It is auto-scalable. When there are many requests, Lambda will scale the function.
+-- Designed to run the code under 15 mins. Not recommended for long running processes.
+-- Web backend, handling requests, etc.
+
+2. AWS Container services:
+-- Access to underying env with same efficiency and portability.
+
+-- Container in the below cases is Docker container.
+-- Containers are packages for you code which has the application, configs and dependencies in both of these. These run on EC2 instances and are isolated.
+-- When using docker on AWS, suppose that instead of a single host with multiple containers, you have to manage tens of hosts with hundreds of containers. Alternatively, you have to manage possibly hundreds of hosts with thousands of containers. At a large scale, imagine how much time it might take for you to monitor memory usage, security, logging, and so on. Container orchestration services help you to deploy, manage, and scale your containerized applications.
+
+1. Amazon Elastic Container Service (Amazon ECS):
+-- Helps run container apps at scale without the hassle to manage container orchestration software (monitor/start/stop/restart containers).
+-- With Amazon ECS, you can use API calls to launch and stop Docker-enabled applications.
+
+2. Amazon Elastic Kubernetes Service (Amazon EKS):
+-- Amazon Elastic Kubernetes Service (Amazon EKS) is a fully managed service that you can use to run Kubernetes on AWS. 
+-- Does a similar thing with different tools and features.
+
+Both ECS and EKS can run on EC2, but, we can also have them on AWS Fargate which is a serverless compute platform for ECS or EKS.
+
+Therefore, 
+a. To run traditional apps with full access to underlying OS, use EC2.
+b. To run short running functions, service oriented or event driven apps, and dont want to manage the underlying env at all, use AWS Lambda.
+c. To run docker, container based workloads on AWS, choose the orchestration tool first, ECS or EKS, then choose platform EC2 or AWS Fargate.

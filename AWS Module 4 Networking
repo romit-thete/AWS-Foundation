@@ -1,0 +1,100 @@
+Virtual Private Cloud:
+-- A VPC lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. 
+-- These resources can be public facing so they have access to the internet, or private with no internet access, usually for backend services like databases or application servers. 
+-- The public and private grouping of resources are known as subnets and they are ranges of IP addresses in your VPC. 
+-- It is basically your own private network in AWS.
+
+-- VPC consists of various subnets which further consists of various AWS services like the ELB, EC2 instances, etc.
+-- Using VPC, we can block public traffic to get into some of our crucial AWS services, like the backend databases, or the HR application.
+-- But there are some users who might need to access some of the services within the VPC, like the company website.
+
+Internet Gateway (IGW):
+-- An internet gateway is responsible for having an entry/exit system for the external public traffic.
+-- It is basically like a doorway that allows anyone to get into the internal system (VPC).
+-- But we don't want anyone from anywhere to reach all our resources in the VPC (ex: no DB access to all).
+
+Virtual Private Gateway:
+-- This only allows traffic if they come from an approved source or network.
+-- It allows to create a VPN Connection between a private network to a VPC.
+-- So we do have a VPN connection which is private and encrypted, while still using the publicly shared route, which is the Internet.
+
+AWS Direct connect:
+-- This basically creates a completely private physical connection from datacenter to AWS.
+-- This can avoid any potential bandwidth issues and enforce security while saving network costs.
+
+-- One VPC can have multiple types of Gateways for multiple resources. All can be in same VPC, just in different subnets.
+
+We can also enhance the security using many ways in AWS. Some of which are:
+1. Network Hardening
+2. Application Security
+3. User Identity
+4. Authentication and Authorization
+5. Distributed Denial of service (DDoS) prevention
+6. Data Integrity
+7. Encryption and many more.
+
+1. Network Hardening:
+-- Public subnets have access to IGW whereas Private subnets do not. In this way, we can use subnets to allow public traffic to reach the public subnet only.
+-- Subnets can also control traffic permissions.
+-- Every subnet has a Network Access control list (Network ACL)
+-- Network ACLs:
+	-- This Network ACL is responsible to check the packets coming at the subnet boundaries, check if it is coming from an authentic source (by checking the permissions) and allow/disallow it.
+	-- Subnets can also control the exit of a packet if the Network ACLs are configured in that way.
+	-- Each AWS account includes a default network ACL. 
+	-- When configuring your VPC, you can use your account’s default network ACL or create custom network ACLs. 
+	-- By default, your account’s default network ACL allows all inbound and outbound traffic, but you can modify it by adding your own rule.
+	-- For custom network ACLs, all inbound and outbound traffic is denied until you add rules to specify which traffic to allow.
+	-- Additionally, all network ACLs have an explicit deny rule which ensures that if a packet doesn’t match any of the other rules on the list, it is denied. 
+	
+-- Security Groups: 
+	-- The Network ACLs only control subnet level access. However, it doesn't determine whether a request can reach an instance or not.
+	-- To answer these questions, Security groups were introduced.
+	-- By default, Security groups come in-the-box with an instance when launched.
+	-- These groups do not allow any traffic to enter the instance by default.
+	-- You can modify security groups to allow specific traffic in/out (say, HTTPS only for Web requests)
+	-- Unlike NACLs, Security groups check the incoming traffic and not the outgoing traffic. 
+	-- By default, all traffic is allowed out and none is allowed in.
+	-- If you have multiple Amazon EC2 instances within a subnet, you can associate them with the same security group or use different security groups for each instance. 
+
+-- The key difference between Security groups and NACLs is that:
+	-- Security groups are Stateful: It comes with some memory which decides which request to allow in/out.
+	-- NACLs are Stateless: remembers nothing and checks all the packets regardless of any circumstances.
+-- Security groups are like the watchman at your home, whereas Network ACLs are like the passport officers at the immigration office.
+-- Every packet whether going in/out is checked in case of Network ACLs (just like the passport officer checks for every person leaving/entering the country)
+-- At the security group level, every packet is just checked if it is allowed in (just like your watchman would allow you only if you are approved to enter the building and won't care if you leave out)
+-- Now for the return traffic (say when one packet goes from subnet A to subnet B and now wants to return back to subnet A):
+	-- Currently Packet is in an EC2 instance in the subnet B.
+	-- When the packet starts its journey, the security group at subnet B doesn't care of the exit and hence approves the exit.
+	-- When the packet reaches subnet B boundary, the NACL is stateless and does need to know the state i.e., check if the packet must make the exit.
+	-- Once the packet is allowed to exit from subnet B, it reaches the subnet A boundary.
+	-- At the subnet A boundary, another NACL is present which is again stateless and checks if the packet should be allowed.
+	-- Now the packet gets allowed and goes to the security group of the EC2 instance in subnet A.
+	-- Now, since the security groups are stateful, they know that this packet belonged to this particular EC2 instance before and hence doesn't check the list and allows the packet to enter.
+	
+Global networking:
+-- Upto now, we saw how do you interact with AWS. But how do your customers interact with AWS infrastructure.
+-- Your customers will first type your website address in their browser and then come to AWS.
+-- But how does that work?
+-- The request actually goes to the AWS services below:
+1. Amazon Route 53:
+	-- It is AWS's Domain Name Service (DNS) which is highly available and scalable.
+	-- DNS? It is a sort of a translator that translates Website names to IP addresses that computers can read.
+	-- It can route traffic to different endpoints using different routing policies:
+		1. Latency based routing
+		2. Geolocation DNS (routes traffic based on where they're coming from)
+		3. Geoproximity routing
+		4. Weighted round robin
+	-- You can also buy and manage domain names right on AWS by using Route 53.
+2. Amazon CloudFront:
+	-- It uses a technique that reduces latency to the minimum: CDN (Content Delivery Network)
+	-- For example, say a user wants to access a website in Seattle. We have our website in the Oregon region (which is far from Seattle).To minimise the latency, we load the static files (images, GIFs, etc.) somewhere in the North America region (which is close to Seattle) and host our website at Oregon itself thus making the images and other static files to load faster.
+	-- But say if a user is in Ireland and wants to access the same website. Having the user redirected to the Oregon region will increase the latency a lot! Thus, we host the same website in a region not too far from Ireland and load our static files somewhere close to Ireland.
+	
+How do these two services work together?
+-- Suppose that AnyCompany’s application is running on several Amazon EC2 instances. 
+-- These instances are in an Auto Scaling group that attaches to an Application Load Balancer. 
+1. A customer requests data from the application by going to AnyCompany’s website. 
+2. Amazon Route 53 uses DNS resolution to identify AnyCompany.com’s corresponding IP address, 192.0.2.0. This information is sent back to the customer. 
+3. The customer’s request is sent to the nearest edge location through Amazon CloudFront. 
+4. Amazon CloudFront connects to the Application Load Balancer, which sends the incoming packet to an Amazon EC2 instance.
+
