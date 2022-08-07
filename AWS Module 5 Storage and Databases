@@ -1,0 +1,234 @@
+Storages and Types of databases:
+
+Instance Store:
+-- Block level storage.
+-- Only a specific part of the storage is updated everytime you update any specific file/data.
+-- This is useful and efficient as not the entire disk is overwritten and can be used to access databases, enterprise softwares or filesystems.
+-- Laptops/Personal Computers have block level storage.
+-- Like laptops/PCs make use of hard drives, EC2 instances have hard drives as well, the only difference being that these are attached to the underlying physical hosts that they come with.
+-- Now, since EC2 instances are VMs, they can be launched on any host and can change hosts during stop-start process.
+-- Thus, when an EC2 instance is stopped, it looses the storage as well. This is only useful when we cases where data loss is not a concern.
+-- Example use cases are temporary files, scratch files, etc
+
+But what if we have data that should persist?
+Amazon Elastic Block Store (EBS):
+-- EBS is AWS's block storage which is not attached to any physical host.
+-- We can create virtual hard drives called EBS Volumes which store data from an EC2 instance and ensures it is persistent.
+-- Thus stopping and starting an EC2 intstance won't have an effect on the storage.
+-- EBS Volumes come in different sizes and types. We simply need to choose the type, the size and the config of the EBS volume that we need.
+-- We then attach EBS Volumes to EC2 instances.
+-- Since the data on EBS needs to persist, we should regularly take backups so that if we face any issues, we can restore from there.
+-- EBS also allows to take incremental backups called snapshots. 
+-- An EBS snapshot is an incremental backup. This means that the first backup taken of a volume copies all the data. For subsequent backups, only the blocks of data that have changed since the most recent snapshot are saved. 
+
+
+Amazon Simple Storage Service (S3):
+-- It allows to store any amount of data at any scale!
+-- Files, Excel sheets, Videos, etc can be stored using S3.
+-- It allows to store data as objects which are in turn stored in Buckets (like directories).
+-- In object storage, each object consists of data, metadata, and a key (Unique id).
+-- Max file size for an object: 5 TB
+-- It also allows to version objects to avoid accidental deletion of any object.
+-- We can also create multiple buckets. You can also have access control (who can access the objects)
+-- We can also classify data into different tiers: Data that needs to be used frequently and data that has to be stored for several years.
+
+-- When you modify a file in block storage, only the pieces that are changed are updated. 
+-- When a file in object storage is modified, the entire object is updated.
+
+1. S3 Standard:
+-- Comes with 11 nines of durability (99.999999999%) probability that the object will remain intact for 1 year.
+-- Designed for frequently accessed data
+-- Data is stored in atleast 3 facilities thus causing high availability even if two storage facilities are lost.
+-- Has a higher cost than other storage classes intended for infrequently accessed data and archival storage.
+
+S3 Static Website Hosting:
+-- Has collection of static HTML files where each HTML file points to a specific site.
+-- You can do this by uploading all the HTMLs and static web assets in a bucket and checking a box.
+-- Then enter the url of the bucket and you get a website!
+-- Static also includes animations!
+
+2. S3 Standard - Infrequent Access (S3-IA):
+-- Used for data which is accessed less frequently but requires rapid access when needed.
+-- Perfect to store backups and disaster recovery files.
+-- Both S3 Standard and S3 Standard-IA store data in a minimum of three Availability Zones.
+-- Similar to S3 Standard but has a lower storage price and higher retrieval price.
+
+3. S3 One Zone - Infrequent Access (S3 One Zone - IA):
+-- Stores data in a single Availability Zone.
+-- Has a lower storage price than S3 Standard-IA.
+-- Used in applications where:
+	-- You want to save costs on storage.
+	-- You can easily reproduce your data in the event of an Availability Zone failure.
+
+4. S3 Intelligent Tiering:
+-- Ideal for data with unknown or changing access patterns.
+-- Requires a small monthly monitoring and automation fee per object.
+-- If you haven’t accessed an object for 30 consecutive days, Amazon S3 automatically moves it to the infrequent access tier, S3 Standard-IA. 
+-- If you access an object in the infrequent access tier, Amazon S3 automatically moves it to the frequent access tier, S3 Standard.
+
+3. S3 Glacier:
+-- Retain data for several years and not access so frequently. And we don't care if it is retrieved rapidly or slowly (Able to retrieve objects within a few minutes to hours).
+-- You can store data directly in the glacier or lock it in a vault.
+-- You can also define policies like Write Once/Read Many (WORM) in a vault lock policy. Once locked, it (policy) can't be changed.
+-- Low-cost storage designed for data archiving.
+-- Useful for applications to store archived customer records or older photos and videos.
+
+4. S3 Glacier Deep Archive:
+-- Lowest-cost object storage class ideal for archiving
+-- Able to retrieve objects within 12 hours
+-- This is the slowest of all!
+
+S3 Lifecycle policies:
+-- Policies to move data automatically within tiers.
+-- ex: Say we want data to be in S3 Standard for 90 days and move it to S3-IA for 30 days and finally after these 120 days, move data to S3 Glacier.
+-- With lifecycle policies, we can set the config and achieve this without even modifying the application code.
+
+
+Comparison between EBS and S3:
+
+			EBS											S3
+1. Sizes upto 16 TB.									Unlimited storage.
+2. Can Survive termination of their EC2 instance.		Individual objects can be upto 5TB in size.
+3. Solid State by default.								Specialized in write once/read many.
+4. HDD options available.								99.999999999% durable.
+														Web-enabled (every object has it's website)
+														Serverless
+														
+-- If using complete objects with very less to absolutely no modifications, S3 wins!
+-- If you need to do complex read, write, change functions, EBS wins!
+
+Amazon Elastic File System (EFS):
+-- In file storage, multiple clients (such as users, applications, servers, and so on) can access data that is stored in shared file folders. 
+-- In this approach, a storage server uses block storage with a local file system to organize files. 
+-- Clients access data through file paths.
+
+-- Managed FS.
+-- Let's you store Files in a shared FS and let's AWS do the heavy lifting of scaling and replication.
+-- With EFS, the problem of maintaining large on-prem storages and creation of redundant storages is resolved.
+-- It can scale on demand to petabytes without disrupting applications.
+-- But what is the difference with EBS as it does the same thing as it is also shared by EC2 instances??
+	-- In EBS, volumes attach to EC2 instances and are an Availability Zone resource.
+	-- You need to be in the same AZ in order for the EC2 to attach to EBS.
+	-- It doesn't auto-scale either.
+	-- With EFS, multiple instances can read/write at the same time.
+	-- It is a true Linux FS.
+	-- It is a Regional resource!
+	-- Auto-scaling!
+	-- Additionally, on-premises servers can access Amazon EFS using AWS Direct Connect.
+	
+Amazon Relational Database Service (RDS):
+-- RDBMS - Store data in such a way that it relates to other data!
+-- Since the onprem databases are huge, is there a way to move them to the cloud? YES! We have two ways:
+
+1. Lift and Shift Migration:
+	-- Quick shift to the cloud
+	-- Migrates DB to AWS.
+	-- Control over same variable as in on-prem: OS, memory, CPU, Storage capacity, etc.
+	
+2. Amazon RDS:
+	-- Comes with added benefits: hardware provisioning, automated patching, backups, redundancy, failover, disaster recovery, etc!
+	-- Many Amazon RDS database engines offer encryption at rest (protecting data while it is stored) and encryption in transit (protecting data while it is being sent and received)
+	-- Supports MySQL, PostgreSQL, Oracle, Microsoft SQL Server and many more relational database management systems!
+
+
+3. Amazon Aurora:
+	-- Most managed RDBMS option from AWS.
+	-- Supports MySQL and PostgreSQL.
+	-- 5x faster than MySQL and 3x faster than PostgreSQL.
+	-- Priced 1/10th of other commercial grade DBMS.
+	-- Helps to reduce your DB costs by reducing unnecessary (I/O) operations, while ensuring that your DB resources remain reliable and available. 
+	-- Other Benefits: 
+		-- Replicates six copies of data across three Availability Zones.
+		-- You can also deploy upto 15 read replicas to offload the reads and scale the performance.
+		-- Continuous backups to S3.
+		-- Point in time recovery!
+
+Amazon DynamoDB:
+-- Serverless -- No need to manage the underlying resources powering it.
+-- We can create tables where we can store and query data organized in items (keys) which have attributes (values).
+-- It manages the scaling of the system up/down.
+-- DynamoDB stores this data redundantly across multiple AZs and mirrors data across multiple drives.
+-- Highly performant! Millisecond response time!
+-- Useful for cases where we have applications with millions of users.
+-- It is a Non-relational DBMS as RDBMS can have performance issues when under stress!! Hence NoSQL.
+-- Nonrelational databases use structures other than rows and columns to organize data.
+-- NoSQL DBs have simple, flexible schemas not rigid ones with relations to each other.
+-- Not every item in the Non-relational DB table has to have the same attributes.
+-- We cannot run SQL queries here, instead we write queries based on small subset of attributes designated as keys!
+-- Hence, queries on NoSQL are a little simple and focus on collection of items from one table and not queries that span multiple tables.
+
+POINTS TO REMEMBER:
+-- DynamoDB is NoSQL DBMS.
+-- Purpose built - has specific use cases.
+-- Has millisecond response time.
+-- Fully managed and highly scalable.
+
+Comparison of Amazon RDS and Amazon DynamoDB:
+
+			RDS											DynamoDB
+1. Automatic high availability; recovery provided		Key-value pairs, no advanced schemas
+2. Customer ownership of data							Massive throughput
+3. Customer ownership of schema							PB size scale potential
+4. Customer control of network							Granular API access
+5. Built for business analytics
+
+
+Amazon Redshift:
+-- Amazon Redshift is a data warehousing service that you can use for big data analytics.
+-- It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
+
+AWS Database Migration Service (DMS):
+-- On prem DB can be migrated to AWS in a secure and easy way
+-- Source DB remains fully operational during the migration minimizing downtime!
+-- Source and target DBs don't have to be of the same type!
+
+Homogenous Migrations:
+-- Migrations for databases of the same type.
+-- ex: MySQL to Amazon RDS for MySQL, Microsoft SQLServer to Amazon RDS for SQL Server.
+-- Schema structures, data types and database code is compatible between source and target, hence the process is straightforward.
+-- Source can be running on prem, on EC2 or on RDS.
+-- Target can be running on EC2 or on RDS.
+-- We create a migration task with connections to source and target DBs and simply start the migration!
+
+Heterogenous Migrations:
+-- Source and Target DBs are of different types.
+-- Schema structures, data types and database code are different between source and target.
+-- We first convert the source schema and database code using the AWS Schema conversion tool to match the target database.
+-- We then migrate the data from source to target using DMS.
+
+Apart from the above two migrations, we can also use DMS for Dev and test DB migrations, database consolidation and continuous database replication.
+
+1. Dev and Test DB migrations:
+-- DMS can migrate a copy of Prod into Dev and Test DBs either continuously or once.
+
+2. DB Consolidation:
+-- When you have many DBs and want to consolidate them into one single DB.
+
+3. Continuous replication:
+-- Used to create continuous replicas. Could be used for Disaster recovery, or because of geographic seperation.
+-- Sending ongoing copies of your data to other target sources instead of doing a one-time migration
+
+Additional database services:
+1. Amazon Document DB:
+-- Document database service that supports MongoDB workloads. (MongoDB is a document database program.)
+
+2. Amazon Neptune:
+-- Graph database service.
+-- You can use Amazon Neptune to build and run applications that work with highly connected datasets, such as recommendation engines, fraud detection, and knowledge graphs.
+
+3. Amazon Quantum Ledger Database (Amazon QLDB):
+-- A ledger database service.
+-- You can use Amazon QLDB to review a complete history of all the changes that have been made to your application data.
+-- Can be used in Banking/Audit applications to make sure no change is left untracked.
+
+4. Amazon Managed Blockchain:
+-- Used to create and manage blockchain networks with open-source frameworks.
+-- Blockchain is a distributed ledger system that lets multiple parties run transactions and share data without a central authority.
+
+5. Amazon ElastiCache:
+-- A service that adds caching layers on top of your databases to help improve the read times of common requests. 
+-- Supports two types of data stores: Redis and Memcached.
+
+6. Amazon DynamoDB Accelerator (DAX):
+-- An in-memory cache for DynamoDB.
+-- It helps improve response times from single-digit milliseconds to microseconds.
