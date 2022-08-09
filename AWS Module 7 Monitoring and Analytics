@@ -1,0 +1,52 @@
+-- Every business has to use metrics to understand how the business is going on.
+-- This idea of observing systems, collecting metrics, evaluating those over time and using them to make decisions is called Monitoring!
+
+Amazon CloudWatch:
+-- Metrics: Variables tied to your resources (ex: CPU utilization, Storage, etc).
+-- CloudWatch enables you to monitor and manage various metrics and configure alarm actions (trigger events) based on the same.
+-- AWS services send metrics to CloudWatch which then uses them and creates different graphs to show the performance over time.
+	
+	1. CloudWatch Alarms:
+	-- You can create alarm actions which will be performed if the value of the metric has gone above/below a threshold.
+	-- When configuring the alarm, you can specify to receive a notification whenever this alarm is triggered.
+	-- CloudWatch is integrated by default with SNS enabling you to provide notification to users.
+	
+	2. CloudWatch Dashboard:
+	-- The CloudWatch dashboard feature enables you to access all the metrics for your resources from a single location
+	-- You can even customize separate dashboards for different business purposes, applications, or resources.
+
+Benefits of CloudWatch:
+1. Access to all your metrics from a single location.
+2. Gain visibility into your apps, infra and services.
+3. Reduce Mean Time to Resolution (MTTR) and improve Total Cost of Ownership (TCO).
+4. Drive insights to optimize applications and operational resources. 
+
+AWS CloudTrail:
+-- AWS CloudTrail records API calls for your account.
+-- It records the identity of the API caller, the time of the API call, the source IP address of the API caller, and more.
+-- Every Event is typically updated in CloudTrail within 15 minutes after an API call.
+
+	CloudTrain Insights:
+	-- This optional feature allows CloudTrail to automatically detect unusual API activities in your AWS account.
+
+AWS Trusted Advisor:
+-- It is a web service that provides real time recommendations based on AWS best practices.
+-- Trusted Advisor compares its findings to AWS best practices in five categories: 
+	1. Cost optimization, 
+	2. Performance, 
+	3. Security, 
+	4. Fault tolerance, 
+	5. and Service limits. 
+-- For the checks in each category, it offers a list of recommended actions and additional resources to learn more about AWS best practices. 
+-- For example, you can use it to assist you while creating new workflows and developing new applications. Or you can use it while making ongoing improvements to existing applications and resources.
+
+AWS Trusted Advisor Dashboard:
+-- Trusted Advisor dashboard on the AWS Management Console gives you completed checks for cost optimization, performance, security, fault tolerance, and service limits.
+-- For each category:
+	-- The green check indicates the number of items for which it detected no problems.
+	-- The orange triangle represents the number of recommended investigations (recommended to check).
+	-- The red circle represents the number of recommended actions (recommended to act!).
+
+Amazon CloudWatch -- Near real time understanding of how your system behaves and alerts for actions.
+AWS CloudTrail -- Auditing questions answered (when, who, how)!
+AWS Trusted Advisor -- Compiles a dashboard of over 40 common concerns around cost, performance, security, resilience.
