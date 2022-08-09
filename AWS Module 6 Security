@@ -1,0 +1,158 @@
+Shared responsibility Model:
+
+-- AWS Controls security "of" the cloud.
+-- Customers control security "in" the cloud.
+AWS:
+-- Control the data canters, security of services provided by them, etc.
+Customer:
+-- Control security of the workloads that are run by them in the cloud.
+
+It's similar to a house:
+-- The builder provides the walls and doors. It is their responsibility to make sure that the items provided by them is strong!
+-- However, it is equally the customer's responsibility to keep it secure (keep the door closed and locked).
+
+For an example of an EC2 instance:
+-- AWS looks after the security of the Physical host on which EC2 is deployed, the network and the hypervisor.
+-- However, it is the responsibility of the customer to ensure the security of the OS, Application and data is maintained.
+
+-- The customer is responsible for managing security requirements for your content, including which content you choose to store on AWS, which AWS services you use, and who has access to that content. You also control how access rights are granted, managed, and revoked.
+
+User Access and Permissions:
+1. AWS Account Root User:
+-- Created when you create an AWS account.
+-- Owner of the AWS account and has complete access.
+-- AWS recommends to turn on MFA (Multi-Factor Authentication) when you create an account.
+-- Owner can give accesses to different resources to different accounts.
+-- We can control access in a granular way by using AWS Identity and Access Management (AWS IAM).
+Note:
+-- Do not use the root user for everyday tasks. 
+-- Instead, use the root user to create your first IAM user and assign it permissions to create other users.
+
+
+AWS Identity and Access Management (AWS IAM):
+-- By default, a user created in IAM, has no permissions (not even has access to AWS login).
+-- It cannot launch EC2, no create permissions for S3 bucket etc
+-- By default, all actions are denied, owners will explicitly allow access to specific parts only.
+-- This is called least privileged principle.
+-- Even if you have multiple employees who require the same level of access, you should create individual IAM users for each of them. This provides additional security by allowing each IAM user to have a unique set of security credentials.
+
+
+
+IAM Policy:
+-- It is a JSON document which specify what API calls a user can and cannot make.
+-- example:
+{
+	"Version": "2012-10-17",
+	"Statement": {
+		"Effect": "Allow",
+		"Action": "s3:ListBucket",
+		"Resource": "arn:aws:s3::: coffee_shop_reports"			// Unique ID for an s3 bucket
+	}
+}
+
+-- If we attach above policy to any user, the user has access to view the coffee shop reports!
+-- Lets get into details of every point inside of statement:
+	Effect: Can be Allow or Deny
+	Action: Any AWS API Call
+	Resource: Which AWS Resource is the API Call for?
+-- You can also create IAM groups of users who can have the similar permissions and attach an IAM policy to the group to save effort.
+
+IAM Roles:
+-- Roles have associated permissions that allow or deny specific actions.
+-- They can be assumed for temporary amount of time.
+-- They are similar to users but have no username or passwords.
+-- Instead, it is an identity that we can use to gain temporary permissions to AWS resources, Users, External identities, applications and other services.
+-- You can also avoid creating IAM users for every user in the organization but instead map their corporate credentials to specific IAM roles (Identity Federation).
+-- Before an IAM user, application, or service can assume an IAM role, they must be granted permissions to switch to the role.
+-- When someone assumes an IAM role, they abandon all previous permissions that they had under a previous role and assume the permissions of the new role. 
+
+
+AWS Organizations:
+-- As businesses grow, you would want to have the seperation of duties.
+-- For example, you would want the developers to have access to the development environments, accountants to have access to billing info, etc.
+-- AWS Organizations is a central location to manage multiple AWS accounts.
+-- Features:
+	1. Centralized management of all your AWS accounts.
+	2. Consolidated billing for all user accounts. (Bulk discounts)
+	3. Hierarchical grouping of accounts. (OUs or BUs)
+	4. Control over the AWS Services and API actions that each account can access.
+-- When you create an organization, AWS Organizations automatically creates a root, which is the parent container for all the accounts in your organization. 
+-- In AWS Organizations, you can centrally control permissions for the accounts in your organization by using service control policies (SCPs). 
+-- SCPs enable you to place restrictions on the AWS services, resources, and individual API actions that users and roles in each account can access.
+-- SCPs can be applied to:
+	1. The organization root.
+	2. An individual member account.
+	3. An organizational unit (OU).
+-- You can apply IAM policies to IAM users, groups, or roles. You cannot apply an IAM policy to the AWS account root user.
+
+Compliance:
+-- Audit records/documents/inspections can happen anytime.
+-- If you design app that deals with consumer data in the EU region, you need to be compliant to the GDPR (General Data Protection Regulation)
+-- If you design healthcare app for the US, you need to be compliant with HIPAA (Health Insurance Portability and Accountability Act)
+-- AWS by default is compliant to all the organizational standards and policies and you inherit them with AWS.
+-- You just need to make sure your apps be compliant with the needful regulatory.
+-- Regions you choose might help you meet compliance regulations. If you store data in the country that the data is from, you can choose a region that makes sense and AWS will not replicate the data in other regions.
+-- YOU OWN YOUR DATA IN AWS!! (as described in shared responsibility model)
+-- AWS Artifact:
+	-- Service from where you can get to know the documentations on how AWS follows the best practices for security and compliance.
+	-- You get to access compliance reports that are done by third parties who have validated a wide range of compliance standards.
+	-- It consists of two main sections: AWS Artifact Agreements and AWS Artifact Reports.
+		-- In AWS Artifact Agreements, you can review, accept, and manage agreements for an individual account and for all your accounts in AWS Organizations.
+		-- AWS Artifact Reports provide compliance reports from third-party auditors. Always up-to-date.
+-- AWS Compliance:
+	-- All AWS complaince info in one place.
+	-- In the Customer Compliance Center, you can read customer compliance stories to discover how companies in regulated industries have solved various compliance, governance, and audit challenges.
+	-- You can also access compliance whitepapers and documentation on topics such as:
+		-- AWS answers to key compliance questions
+		-- An overview of AWS risk and compliance
+		-- An auditing security checklist
+
+Distributed Denial of Service (DDoS):
+-- A denial-of-service (DoS) attack is a deliberate attempt to make a website or application unavailable to users.
+-- In a distributed denial-of-service (DDoS) attack, multiple sources are used to start an attack that aims to make a website or application unavailable. 
+-- This can come from a group of attackers, or even a single attacker. 
+-- The single attacker can use multiple infected computers (also known as “bots”) to send excessive traffic to a website or application.
+
+We can use ELB (take a complete request in and only then allow it further, ex: Slowloris attack) and Security groups (allow no entry without checking the list, ex: UDP Flood) to secure our env from the DDoS attacks.
+
+AWS Shield:
+-- It is a service that protects applications against DDoS attacks. 
+-- AWS Shield provides two levels of protection: Standard and Advanced.
+1. Standard: 
+-- No cost. 
+-- Protects AWS resources from the most common, frequently occurring types of DDoS attacks.
+-- As network traffic comes into your apps, it uses a variety of analysis techniques to detect malicious traffic in real time and automatically mitigates it. 
+
+2. Advanced:
+-- Paid service that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks. 
+-- It also integrates with other services such as CloudFront, Route 53, and ELB. 
+-- Additionally, you can integrate AWS Shield with AWS WAF by writing custom rules to mitigate complex DDoS attacks.
+
+Other services:
+1. AWS Key Management Service (AWS KMS)
+-- You must ensure that your applications’ data is secure while in storage (encryption at rest) and while it is transmitted (encryption in transit).
+-- AWS Key Management Service (AWS KMS) enables you to perform encryption operations through the use of cryptographic keys. 
+-- A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. 
+-- You can use AWS KMS to create, manage, and use cryptographic keys.
+-- With AWS KMS, you can choose the specific levels of access control that you need for your keys. For example, you can specify which IAM users and roles are able to manage keys. 
+-- Alternatively, you can temporarily disable keys so that they are no longer in use by anyone. Your keys never leave AWS KMS, and you are always in control of them.
+
+2. AWS WAF
+-- It is a web application firewall that lets you monitor network requests that come into your web applications.
+-- It works together with AWS CloudFront and an application Load balancer.
+-- It works in a similar way like a Network ACL. The only difference is that it uses a Web Access Control List (Web ACL).
+-- You simply can define a blocklist that will be used to allow/deny web requests based on the IP addresses.
+
+3. Amazon Inspector:
+-- Helps to improve the security and compliance of applications by running automated security assessments.
+--  It checks applications for security vulnerabilities and deviations from security best practices, such as open access to Amazon EC2 instances and installations of vulnerable software versions.
+-- After the assessment, it provides a list of findings prioritized by the security level and their resolutions. However, not every provided resolution can fix the security issues as in some cases, it is the customers job as well (shared responsibility model).
+
+4. Amazon GuardDuty:
+-- It provides intelligent threat detection for the complete AWS infrastructure.
+-- It runs independently other than the AWS resources thus not creating a load on the other resources.
+-- It continuously monitors the account behaviour and network activities on your AWS env.
+-- You do not have to deploy or manage any additional security software.
+-- It guards through various AWS sources, including VPC Flow Logs and DNS logs.
+-- You can view the findings in the AWS Management Console.
+-- You can also configure AWS Lambda functions to take remediation steps automatically in response to GuardDuty’s security findings.
