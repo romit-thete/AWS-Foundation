@@ -1,0 +1,126 @@
+1. AWS Free Tier:
+	a. Always free: 
+		-- Some services are always free. These offers do not expire.
+	b. 12 Months free:
+		-- Some services are free for a year from the signup date and charges start later on.
+	c. Trials:
+		-- Some services are just for trial purposes and they start charging after the trial period ends.
+-- examples: 
+	-- AWS Lambda allows 1 million free requests and up to 3.2 million seconds of compute time per month. Amazon DynamoDB allows 25 GB of free storage per month. (Always free)
+	-- Amazon S3 is free for 12 months for up to 5GB of standard storage, some amounts of thresholds for monthly hours of Amazon EC2 compute time, and amounts of Amazon CloudFront data transfer out are also free for 12 months. (12 Months free)
+	-- Amazon Inspector offers a 90-day free trial. Lightsail, which is a service where you can deploy ready-made application stacks (like wordpress) has a 1 month of trial with upto 750 hours of usage.
+	-- Other services that come under free tier: Sagemaker, Comprehend medical, DynamoDB, SNS, Cognito and many more.
+	
+-- AWS offers a range of cloud computing services with pay-as-you-go pricing. 
+	-- Pay for what you use: pay for exactly the amount of resources that you actually use, without requiring long-term contracts or complex licensing. 
+	-- Pay less when you reserve: Reservation options that provide a significant discount compared to On-Demand Instance pricing also available.
+	-- Pay less with volume-based discounts when you use more: Tiered pricing, so the per-unit cost is incrementally lower with increased usage.
+-- You can use the AWS Priicng Calculator: https://calculator.aws/#/ to create an estimate for the costs. A group can reflect how your company is organized, such as providing estimates by cost center.
+
+-- EXAMPLES:
+	1. Paying less when you reserve:
+	-- For AWS Lambda, you are charged based on the number of requests for your functions and the time that it takes for them to run.
+	-- 1 million free requests and 3.2 million seconds of compute time/month.
+	-- Save on these costs by signing up for Compute Savings Plans.
+	-- Compute Savings Plans need a loyalty of 1 or 3 years and it offers lower compute costs in exchange.
+	-- If you have used AWS Lambda in multiple AWS Regions, you can view the itemized charges by Region on your bill. 
+	
+	2. Pay for what you use:
+	-- With Amazon EC2, you pay for only the compute time that you use while your instances are running.
+	-- For some workloads, you can significantly reduce Amazon EC2 costs by using Spot Instances. 
+	-- You can find additional cost savings for Amazon EC2 by considering Savings Plans and Reserved Instances.
+	-- The service charges in this example include details for the following items:
+		- Each Amazon EC2 instance type that has been used,
+		- The amount of Amazon EBS storage space that has been provisioned,
+		- The length of time that Elastic Load Balancing has been used
+	
+	3. Amazon S3:
+	-- For Amazon S3 pricing, consider the following cost components:
+	a. Storage: 
+		- Pay for only the storage that you use.
+	b. Requests and data retrievals: 
+		- e.g., you are storing photo files in S3 buckets and hosting them on a website. 
+		- Every time a visitor requests the website that includes these photo files, this counts towards requests you must pay for.
+	c. Data transfer: 
+		- There is no cost to transfer data between different Amazon S3 buckets or from Amazon S3 to other services within the same AWS Region. 
+		- However, you pay for data that you transfer in/out of Amazon S3, with a few exceptions. 
+		- There is no cost for data transferred into Amazon S3 from the internet or out to Amazon CloudFront. 
+		- There is also no cost for data transferred out to an Amazon EC2 instance in the same AWS Region as the Amazon S3 bucket.
+	d. Management and replication:
+		-  Pay for the storage management features that you have enabled on your account’s Amazon S3 buckets. 
+		- These features include Amazon S3 inventory, analytics, and object tagging.
+		
+AWS Billing Dashboard:
+-- Use the AWS Billing & Cost Management dashboard to pay your AWS bill, monitor your usage, and analyze and control your costs.
+	Features:
+	-- Compare your current month-to-date balance with the previous month, and get a forecast of the next month based on current usage.
+	-- View month-to-date spend by service.
+	-- View Free Tier usage by service.
+	-- Access Cost Explorer and create budgets.
+	-- Purchase and manage Savings Plans.
+	-- Publish AWS Cost and Usage Reports.
+
+Consolidated Billing:
+-- AWS would provide a consolidated billing for every account within the AWS Organization.
+-- The default maximum number of accounts allowed for an organization is 4, but you can contact AWS Support to increase your quota, if needed.
+-- Say there are a 100 accounts in multiple AWS organizations. Instead of having a clutter of bills lying around for every account in every organization, it is very easy to have one consolidated bill that will simply represent the organization's usage.
+-- However, you can still view individual bills if needed.
+-- Another benefit of consolidated billing is the ability to share bulk discount pricing, Savings Plans, and Reserved Instances across the accounts in your organization. 
+-- For instance, one account might not have enough monthly usage to qualify for discount pricing as compared to the usage by multiple accounts.
+-- However, the discounts would also be applied on the usage per account (Higher the usage, better the discount for that account).
+
+AWS Budgets:
+-- Just like you would like to have a budget when spending money on something, AWS provides a feature called Budgets where we can set custom budgets based on service usage, service costs, and instance reservations
+-- The information in AWS Budgets updates three times a day.
+-- When you reach a certain amount of that budget, you would be notified either via SNS or by email.
+
+AWS Cost Explorer:
+-- AWS Cost Explorer is a tool that enables you to visualize, understand, and manage your AWS costs and usage over time.
+-- Default report: costs and usage for your top five cost-accruing AWS services. 
+-- You can apply custom filters and groups to analyze your data. For example, you can view resource usage at the hourly level.
+
+AWS Support plans:
+-- AWS offers four different Support plans to help you troubleshoot issues, lower costs, and efficiently use AWS services. 
+1. Basic
+2. Developer
+3. Business
+4. Enterprise
+
+1. Basic:
+-- free for all AWS customers
+-- access to whitepapers, documentation, and support communities.
+-- contact AWS for billing questions and service limit increases.
+-- access to a limited selection of AWS Trusted Advisor checks.
+-- access to AWS Personal Health Dashboard, a tool that provides alerts and remediation guidance when AWS is experiencing events that may affect you. 
+
+The next three Support plans have pay-by-the-month pricing and require no long-term contracts.
+For pricing, the Developer plan has the lowest cost, the Business plan is in the middle, and the Enterprise plan has the highest cost.
+
+2. Developer:
+-- Basic support included
+-- Best practice guidance
+-- Client-side diagnostic tools
+-- Building-block architecture support, which consists of guidance for how to use AWS offerings, features, and services together
+-- email id to contact at AWS
+
+3. Business:
+-- Basic + Developer
+-- Use-case guidance to identify AWS offerings, features, and services that can best support your specific needs
+-- All AWS Trusted Advisor checks
+-- Limited support for third-party software, such as common operating systems and application stack components
+-- Phone no. to contact at AWS.
+
+4. Enterprise:
+-- Basic + Developer + Business
+-- Application architecture guidance, which is a consultative relationship to support your company’s specific use cases and applications
+-- Infrastructure event management: A short-term engagement with AWS Support that helps your company gain a better understanding of your use cases. This also provides your company with architectural and scaling guidance.
+-- A Technical Account Manager
+
+Technical Account Manager:
+-- TAM is your primary point of contact at AWS in case of an Enterprise support plan.
+-- They provide guidance, architectural reviews, and ongoing communication with your company as you plan, deploy, and optimize your applications.
+-- They provide expertise across the full range of AWS services. They help you design solutions that efficiently use multiple services together through an integrated approach.
+
+AWS Marketplace:
+-- It is a digital catalog that includes thousands of software listings from independent software vendors.
+-- You can use AWS Marketplace to find, test, and buy software that runs on AWS.

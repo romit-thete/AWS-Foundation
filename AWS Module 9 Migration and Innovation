@@ -1,0 +1,113 @@
+AWS Cloud Adoption Framework (CAF):
+-- The AWS Cloud Adoption Framework (AWS CAF) organizes guidance into six areas of focus, called Perspectives.
+-- These are:
+-- Business Capabilities:
+	- Business: 
+		Ensures that IT aligns with business needs and that IT investments link to key business results.
+		e.g., Business Managers, Finance managers, Budget owners, Strategy stakeholders.
+	- People: 
+		Supports development of an organization-wide change management strategy for successful cloud adoption.
+		e.g., HR, Staffing, People managers
+	- Governance: 
+		Focuses on the skills and processes to align IT strategy with business strategy.
+		e.g., Chief Information Officer (CIO), Program managers, Enterprise architects, BAs, Portfolio managers.
+-- Technical Capabilities:
+	- Platform:
+		Includes principles and patterns for implementing new solutions on the cloud, and migrating on-premises workloads to the cloud.
+		e.g., Chief Technology Officer (CTO), IT Managers, Solutions architects
+	- Security:
+		Ensures that the organization meets security objectives for visibility, auditability, control, and agility.
+		e.g., Chief Information Security Officer (CISO), IT security managers, IT security analysts.
+	- Operations:
+		Helps you to enable, run, use, operate, and recover IT workloads to the level agreed upon with your business stakeholders.
+		e.g., IT Operations managers, IT support managers.
+		
+-- 6 R's of migration:
+1. Rehosting:
+-- aka Lift and Shift.
+-- Absolutely no effort needed, directly migrate on prem to AWS as is!
+-- Some businesses won't even feel the need to change code, hence it is beneficial in only some cases.
+
+2. Replatforming:
+-- Lift, tinker, and shift.
+-- No new dev efforts or code changes involved (ex: change DB from SQL to Amazon RDS).
+-- The core architecture is not changed, only a few cloud optimizations are carried out to realize a benefit.
+
+3. Retire:
+-- Some parts of the on prem architecture is just not needed or not in use or have replacements.
+-- AWS migration plan can be an opportunity to have these applications decomissioned.
+
+4. Retain:
+-- Retaining consists of keeping applications that are critical for the business in the source environment. 
+-- This might include applications that require major refactoring before they can be migrated, or, work that can be postponed until a later time.
+-- This also includes some apps which are about to be deco'ed but not immediately.
+-- Only migrate to AWS what makes sense. These apps can live wherever they are and later on migrated in stages/deco'ed instead of having them moved to AWS right away.
+
+5. Repurchase:
+-- Common for companies that look forward to change the legacy software Vendors either due to end of license or simply just because they want a new vendor.
+-- It involves moving from traditional license to a software-as-a-service model.
+-- ex: Moving from one CRM vendor to a newer one (Salesforce), ending the licensing in favour of cloud-native DB offerings.
+-- The catch here is that since these are new softwares totally, some are easy to implement whereas some might take time.
+-- The total upfront expense thus goes a little higher but the benefits are better in the long run.
+
+6. Refactoring/Re-architecting:
+-- Here is where a new code is needed. 
+-- But this needs a strong business need to add features or improve performance that might not be possible on prem but now it is, with AWS.
+-- Highest initial cost for planning and efforts.
+
+AWS Snow Family:
+-- Every customer has large and large amounts of data which they need to be transferred onto AWS during the migration.
+-- This is not possible over direct connect methods as for transferring large data like 100PB, having even 1GBps worth of speed would still take 100 days to transfer theoretically.
+-- Here is where the AWS Snow Family comes into play! These are used to transfer loads of data from on prem to AWS without going over the Internet.
+-- Below are the options:
+1. AWS Snowcone
+2. AWS Snowball
+3. AWS Snowmobile
+-- These devices offer different capacity points, and most include built-in computing capabilities. 
+-- AWS owns and manages the Snow Family devices and integrates with AWS security, monitoring, storage management, and computing capabilities.  
+
+1. AWS Snowcone:
+-- Small, Rugged and secure edge computing and data transfer device.
+-- Has 2 CPUs and 4 GB of memory and 8 TB of usable storage.
+
+2. AWS Snowball:
+-- This has two options:
+	a. Snowball Edge Storage Optimized:
+	- Suitable for large-scale data migrations.
+	- 80 TB of HDD for block volumes and S3 compatible object storage and 1 TB of SATA SSD for block volumes.
+	- 40 vCPUs and 80 GB of memory to support EC2 sbe1 instances.
+	
+	b. Snow Edge Compute Optimized:
+	- Powerful computing resources hence useful for high compute demanding tasks: ML, Full motion video analysis, analytics and local computing stacks.
+	- 42 TB HDD for S3 or EBS, 7.68 TB usable NVMe SSD for EBS.
+	- 52 vCPUs and 208 GB of memory along with an optional Nvidia Tesla V100 GPU. Devices run EC2 sbe-c and sbe-g instances.
+	
+3. AWS Snowmobile:
+-- Exabyte-scale data transfer service used to move extensively large amount of data to AWS.
+-- It is actually a semi-trailer truck with a 45 foot long container and has 24/7 survillance and an escort vehicle guarding data all the time.
+-- Upto 100 Petabytes worth of data can be transferred per Snowmobile.
+
+Innovations with AWS:
+-- AWS provides even more services for various application needs.
+-- Some application needs/domains where AWS has its presence are as below:
+
+1. Serverless applications:
+	- Serverless: you dont need to provision/maintain/administer a server thus, no need to worry about fault tolerance or HA.
+	- Building the architecture with serverless apps enables the devs to focus on their core product instead of managing and operating servers.
+	- ex: AWS Lambda
+
+2. Artificial Intelligence:
+	- AWS offers a list of services in this domain:
+		- Speech to text : Amazon Transcribe
+		- Discover patterns in text : Amazon Comprehend
+		- Identify potentially fraud online activities : Amazon Fraud Detector
+		- Build Voice and text chatbots : Amazon Lex (Heart of Alexa)
+		- Extract texts and data from documents : Amazon Textract
+
+3. Machine Learning:
+	- Traditional ML models are complex, expensive, time consuming and error prone.
+	- Build, Train, Deploy ML based models : Amazon Sagemaker, Amazon Augmented AI (Amazon A2I), AWS Deepracer.
+	- Sagemaker removes the difficult work from the process and empowers you to build efficient ML models quickly.
+	- AWS DeepRacer is an autonomous 1/18 scale race car that you can use to test reinforcement learning models.
+4. Intenet of Things.
+5. It also allows you to own a Satellite! (pay on usage-basis) : AWS Ground Station
