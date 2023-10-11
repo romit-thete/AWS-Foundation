@@ -26,7 +26,7 @@ AWS CloudTrail:
 -- It records the identity of the API caller, the time of the API call, the source IP address of the API caller, and more.
 -- Every Event is typically updated in CloudTrail within 15 minutes after an API call.
 
-	CloudTrain Insights:
+	CloudTrail Insights:
 	-- This optional feature allows CloudTrail to automatically detect unusual API activities in your AWS account.
 
 AWS Trusted Advisor:

@@ -7,8 +7,8 @@ Instance Store:
 -- Laptops/Personal Computers have block level storage.
 -- Like laptops/PCs make use of hard drives, EC2 instances have hard drives as well, the only difference being that these are attached to the underlying physical hosts that they come with.
 -- Now, since EC2 instances are VMs, they can be launched on any host and can change hosts during stop-start process.
--- Thus, when an EC2 instance is stopped, it looses the storage as well. This is only useful when we cases where data loss is not a concern.
--- Example use cases are temporary files, scratch files, etc
+-- Thus, when an EC2 instance is stopped, it loses the storage as well. This is only useful in cases where data loss is not a concern.
+-- Example use cases are temporary files, scratch files, etc.
 
 But what if we have data that should persist?
 Amazon Elastic Block Store (EBS):
@@ -115,7 +115,7 @@ Amazon Elastic File System (EFS):
 	-- It is a Regional resource!
 	-- Auto-scaling!
 	-- Additionally, on-premises servers can access Amazon EFS using AWS Direct Connect.
-	
+
 Amazon Relational Database Service (RDS):
 -- RDBMS - Store data in such a way that it relates to other data!
 -- Since the onprem databases are huge, is there a way to move them to the cloud? YES! We have two ways:
