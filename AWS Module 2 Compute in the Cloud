@@ -1,17 +1,17 @@
 Amazon EC2:
--- AWS has built and datacenters, secured them, purchased the servers and installed them and are also online and ready to use!
--- One can use these whenever needed.
--- All one has to do is request and start them up. Once done with the usage, we simply need to shut it down.
+-- AWS has built datacenters, secured them, purchased the servers and installed them and are also online and ready to use!
+-- One can use these whenever needed by simply making a request and start them up. Once done with the usage, we simply need to shut it down.
 -- We only pay for running instances!
 -- EC2 runs on top of physical host machines, using virtualization.
 -- When you spin up EC2 instance, you share it with multiple other instances. A hypervisor is responsible for sharing the underlying h/w. (Multi-tenancy)
 -- Hypervisor is managed by AWS and it is responsible for isolating the VMs from each other as they share resources from the host which make them secure!
--- This is all setup by AWS but it is good to have a high level of view.
--- You also have the flexibilty and control over the configs of the EC2 instances.
+-- This is all setup by AWS. You also have the flexibilty and control over the configs of the EC2 instances.
 -- Configs:
-OS: Windows/Linux
-Softwares: Internal business apps, webapps, DBs, third party softwares
--- They are Resizable (Vertical scaling: We can make instances bigger/smaller as per need)
+	OS: Windows/Linux.
+	Softwares: Internal business apps, webapps, DBs, third party softwares.
+-- They are Resizable.
+	-- Vertical scaling: We can make instances bigger/smaller as per need.
+	-- Horizontal scaling: Add/remove any no. of EC2 instances as needed.
 -- Networking can also be controlled (public/private access)
 -- Compute as a Service (CaaS)
 
@@ -127,7 +127,7 @@ AWS Lambda:
 -- Access to underying env with same efficiency and portability.
 
 -- Container in the below cases is Docker container.
--- Containers are packages for you code which has the application, configs and dependencies in both of these. These run on EC2 instances and are isolated.
+-- Containers are packages for your code which has the application, configs and dependencies in both of these. These run on EC2 instances and are isolated.
 -- When using docker on AWS, suppose that instead of a single host with multiple containers, you have to manage tens of hosts with hundreds of containers. Alternatively, you have to manage possibly hundreds of hosts with thousands of containers. At a large scale, imagine how much time it might take for you to monitor memory usage, security, logging, and so on. Container orchestration services help you to deploy, manage, and scale your containerized applications.
 
 1. Amazon Elastic Container Service (Amazon ECS):
