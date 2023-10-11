@@ -47,7 +47,7 @@
 		- There is no cost for data transferred into Amazon S3 from the internet or out to Amazon CloudFront. 
 		- There is also no cost for data transferred out to an Amazon EC2 instance in the same AWS Region as the Amazon S3 bucket.
 	d. Management and replication:
-		-  Pay for the storage management features that you have enabled on your account’s Amazon S3 buckets. 
+		- Pay for the storage management features that you have enabled on your account’s Amazon S3 buckets.
 		- These features include Amazon S3 inventory, analytics, and object tagging.
 		
 AWS Billing Dashboard:

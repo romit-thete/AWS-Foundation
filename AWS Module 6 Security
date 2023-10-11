@@ -3,7 +3,7 @@ Shared responsibility Model:
 -- AWS Controls security "of" the cloud.
 -- Customers control security "in" the cloud.
 AWS:
--- Control the data canters, security of services provided by them, etc.
+-- Control the data centers, security of services provided by them, etc.
 Customer:
 -- Control security of the workloads that are run by them in the cloud.
 
